@@ -2,10 +2,14 @@ const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
 const axios = require('axios');
+const cors = require('cors');
+require('dotenv').config();
+
 const port = process.env.PORT || 4001;
 const index = require('./routes/index');
 
 const app = express();
+app.use(cors());
 app.use(index);
 
 const server = http.createServer(app);
@@ -13,13 +17,16 @@ const io = socketIo(server);
 
 const getApiAndEmit = async socket => {
   try {
-    const res = await axios
-      .get
+    const res = await axios.get(
       // api url
-      (); // Getting the data from DarkSky
-    socket.emit('FromAPI', res.data.currently.temperature); // Emitting a new message. It will be consumed by the client
+      `https://api.openweathermap.org/data/2.5/weather?q=London,uk&appid=${
+        process.env.OPEN_WEATHER_MAP_API_KEY
+      }`,
+    ); // Getting the data from DarkSky
+    console.log('res', res);
+    socket.emit('FromAPI', res.data); // Emitting a new message. It will be consumed by the client
   } catch (error) {
-    console.error(`Error: ${error.code}`);
+    console.error(`Error: ${error}`);
   }
 };
 let interval;
