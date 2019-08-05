@@ -5,6 +5,7 @@ const axios = require('axios');
 const cors = require('cors');
 require('dotenv').config();
 
+const client = require('./twitter');
 const port = process.env.PORT || 4001;
 const index = require('./routes/index');
 
@@ -15,32 +16,32 @@ app.use(index);
 const server = http.createServer(app);
 const io = socketIo(server);
 
-const getApiAndEmit = async socket => {
-  try {
-    const res = await axios.get(
-      // api url
-      `https://api.openweathermap.org/data/2.5/weather?q=London,uk&appid=${
-        process.env.OPEN_WEATHER_MAP_API_KEY
-      }`,
-    ); // Getting the data from DarkSky
-    console.log('res', res);
-    socket.emit('FromAPI', res.data); // Emitting a new message. It will be consumed by the client
-  } catch (error) {
-    console.error(`Error: ${error}`);
-  }
+const getApiAndEmit = socket => {
+  const stream = client.stream('statuses/filter', {
+    track: '😀,😂,😠,😡,😭,😢',
+    filter_level: 'medium',
+  });
+  stream.on('data', function(event) {
+    socket.emit('FromAPI', event); // Emitting a new message. It will be consumed by the client
+  });
+
+  stream.on('error', function(error) {
+    throw error;
+  });
 };
 let interval;
 
 io.on('connection', socket => {
-  console.log('a user connected');
+  console.log('An user connected');
 
   if (interval) {
     clearInterval(interval);
   }
-  interval = setInterval(() => getApiAndEmit(socket), 10000);
+
+  // interval = setInterval(() => getApiAndEmit(socket), 10000);
 
   socket.on('disconnect', function() {
-    console.log('user disconnected');
+    console.log('User disconnected');
   });
 });
 
