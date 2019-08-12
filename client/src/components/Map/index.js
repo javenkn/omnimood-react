@@ -1,5 +1,5 @@
 import React from 'react';
-import geoData from '../../map-data/ne_50m_admin_0_countries.json';
+import geoData from '../../map-data/ne_10m_admin_0_countries.json';
 import {
   ComposableMap,
   ZoomableGroup,
@@ -7,7 +7,7 @@ import {
   Geography,
 } from 'react-simple-maps';
 
-export default function Map() {
+export default function Map({ handleCountryHover }) {
   return (
     <div>
       <ComposableMap>
@@ -25,7 +25,7 @@ export default function Map() {
                       outline: 'none',
                     },
                     hover: {
-                      fill: '#ECEFF1',
+                      fill: 'red',
                       stroke: '#607D8B',
                       strokeWidth: 0.75,
                       outline: 'none',
@@ -39,6 +39,7 @@ export default function Map() {
                   }}
                   geography={geography}
                   projection={projection}
+                  onMouseEnter={handleCountryHover}
                 />
               ))
             }

@@ -1,10 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import socketIOClient from 'socket.io-client';
 
 import './App.css';
+import flagEmojis from './map-data/flag-emoji.json';
 import Map from './components/Map';
 
 function App() {
+  const [country, setCountry] = useState('');
+  const handleCountryHover = geography => {
+    console.log(geography.properties);
+    setCountry(geography.properties.NAME_EN);
+  };
   useEffect(() => {
     const socket = socketIOClient('http://127.0.0.1:4001');
     socket.on('connect_error', () => socket.close());
@@ -17,7 +23,8 @@ function App() {
   return (
     <div className='App'>
       Hello
-      <Map />
+      <h1>{`${country} ${flagEmojis[country]}`}</h1>
+      <Map handleCountryHover={handleCountryHover} />
     </div>
   );
 }
