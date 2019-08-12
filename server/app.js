@@ -1,7 +1,6 @@
 const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
-const axios = require('axios');
 const cors = require('cors');
 require('dotenv').config();
 
@@ -19,10 +18,12 @@ const io = socketIo(server);
 const getApiAndEmit = socket => {
   const stream = client.stream('statuses/filter', {
     track: '😀,😂,😠,😡,😭,😢',
-    filter_level: 'medium',
   });
+
   stream.on('data', function(event) {
-    socket.emit('FromAPI', event); // Emitting a new message. It will be consumed by the client
+    if (event.place) {
+      socket.emit('FromAPI', event); // Emitting a new message. It will be consumed by the client
+    }
   });
 
   stream.on('error', function(error) {
@@ -33,12 +34,7 @@ let interval;
 
 io.on('connection', socket => {
   console.log('An user connected');
-
-  if (interval) {
-    clearInterval(interval);
-  }
-
-  // interval = setInterval(() => getApiAndEmit(socket), 10000);
+  getApiAndEmit(socket);
 
   socket.on('disconnect', function() {
     console.log('User disconnected');
