@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import socketIOClient from 'socket.io-client';
 
 import './App.css';
+import Map from './components/Map';
 
 function App() {
   useEffect(() => {
@@ -13,7 +14,12 @@ function App() {
       socket.close();
     };
   }, []);
-  return <div className='App'>Hello</div>;
+  return (
+    <div className='App'>
+      Hello
+      <Map />
+    </div>
+  );
 }
 
 export default App;
