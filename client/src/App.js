@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import socketIOClient from 'socket.io-client';
 
 import './App.css';
@@ -7,10 +7,9 @@ import Map from './components/Map';
 
 function App() {
   const [country, setCountry] = useState('');
-  const handleCountryHover = geography => {
-    console.log(geography.properties);
+  const handleCountryHover = useCallback(geography => {
     setCountry(geography.properties.NAME_EN);
-  };
+  }, []);
   useEffect(() => {
     const socket = socketIOClient('http://127.0.0.1:4001');
     socket.on('connect_error', () => socket.close());
