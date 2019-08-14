@@ -1,11 +1,12 @@
 import React from 'react';
-import geoData from '../../map-data/ne_50m_admin_0_countries.json';
+import geoData from '../../map-data/world-50m.json';
 import {
   ComposableMap,
   ZoomableGroup,
   Geographies,
   Geography,
 } from 'react-simple-maps';
+import flagEmojis from '../../map-data/flag-emoji.json';
 
 export default React.memo(({ handleCountryHover }) => {
   console.log('render');
@@ -14,8 +15,17 @@ export default React.memo(({ handleCountryHover }) => {
       <ComposableMap>
         <ZoomableGroup disablePanning>
           <Geographies geography={geoData}>
-            {(geographies, projection) =>
-              geographies.map((geography, i) => (
+            {(geographies, projection) => {
+              console.log(geographies.reduce((acc, geography) => {
+                return {
+                  ...acc,
+                  [geography.properties.ISO_A3]: {
+                    name: geography.properties.NAME_LONG,
+                    flag: flagEmojis[geography.properties.NAME_LONG] || ''
+                  }
+                }
+              }, {}));
+              return geographies.map((geography, i) => (
                 <Geography
                   key={`${geography.properties.ABBREV}-${i}`}
                   style={{
@@ -43,6 +53,7 @@ export default React.memo(({ handleCountryHover }) => {
                   onMouseEnter={handleCountryHover}
                 />
               ))
+            }
             }
           </Geographies>
         </ZoomableGroup>

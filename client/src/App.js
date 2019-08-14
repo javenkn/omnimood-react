@@ -2,13 +2,13 @@ import React, { useState, useEffect, useCallback } from 'react';
 import socketIOClient from 'socket.io-client';
 
 import './App.css';
-import flagEmojis from './map-data/flag-emoji.json';
+import countryData from './map-data/country-data.json';
 import Map from './components/Map';
 
 function App() {
-  const [country, setCountry] = useState('');
+  const [countryCode, setCountryCode] = useState('');
   const handleCountryHover = useCallback(geography => {
-    setCountry(geography.properties.NAME_EN);
+    setCountryCode(geography.properties.ISO_A3);
   }, []);
   useEffect(() => {
     const socket = socketIOClient('http://127.0.0.1:4001');
@@ -22,7 +22,11 @@ function App() {
   return (
     <div className='App'>
       Hello
-      <h1>{`${country} ${flagEmojis[country]}`}</h1>
+      {countryCode && (
+        <h1>{`${countryData[countryCode].name} ${
+          countryData[countryCode].flag
+        }`}</h1>
+      )}
       <Map handleCountryHover={handleCountryHover} />
     </div>
   );
