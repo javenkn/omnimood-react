@@ -20,10 +20,10 @@ function App() {
     };
   }, []);
   return (
-    <div className='App'>
-      Hello
+    <div className='app'>
+      <h1 className='app__title'>OMNIMOOD</h1>
       {countryCode && (
-        <h1>{`${countryData[countryCode].name} ${
+        <h1 className='country__title'>{`${countryData[countryCode].name} ${
           countryData[countryCode].flag
         }`}</h1>
       )}

@@ -6,44 +6,34 @@ import {
   Geographies,
   Geography,
 } from 'react-simple-maps';
-import flagEmojis from '../../map-data/flag-emoji.json';
 
 export default React.memo(({ handleCountryHover }) => {
   console.log('render');
   return (
-    <div>
-      <ComposableMap>
+    <div style={{ height: '100%', paddingBottom: '10px' }}>
+      <ComposableMap style={{ width: '100%', height: '100%' }}>
         <ZoomableGroup disablePanning>
           <Geographies geography={geoData}>
-            {(geographies, projection) => {
-              console.log(geographies.reduce((acc, geography) => {
-                return {
-                  ...acc,
-                  [geography.properties.ISO_A3]: {
-                    name: geography.properties.NAME_LONG,
-                    flag: flagEmojis[geography.properties.NAME_LONG] || ''
-                  }
-                }
-              }, {}));
-              return geographies.map((geography, i) => (
+            {(geographies, projection) =>
+              geographies.map((geography, i) => (
                 <Geography
                   key={`${geography.properties.ABBREV}-${i}`}
                   style={{
                     default: {
                       fill: '#ECEFF1',
-                      stroke: '#607D8B',
+                      stroke: '#1a237e',
                       strokeWidth: 0.75,
                       outline: 'none',
                     },
                     hover: {
                       fill: 'red',
-                      stroke: '#607D8B',
+                      stroke: '#1a237e',
                       strokeWidth: 0.75,
                       outline: 'none',
                     },
                     pressed: {
                       fill: '#ECEFF1',
-                      stroke: '#607D8B',
+                      stroke: '#1a237e',
                       strokeWidth: 0.75,
                       outline: 'none',
                     },
@@ -53,7 +43,6 @@ export default React.memo(({ handleCountryHover }) => {
                   onMouseEnter={handleCountryHover}
                 />
               ))
-            }
             }
           </Geographies>
         </ZoomableGroup>
