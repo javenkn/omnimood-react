@@ -7,28 +7,32 @@
 .app {
   width: 100vw;
   height: 100vh;
-  background: #1a237e;
+  background: #1a2643;
+  padding: 10px 20px;
 }
 
 .app__title {
+  height: 0;
+  width: 0;
   position: fixed;
   color: transparent;
   text-transform: uppercase;
   -webkit-text-stroke: 1px #fff;
-  top: 0;
-  font-size: 8vw;
+  top: 7vh;
+  font-size: 7vw;
   right: 0;
   z-index: 10;
-  /* transform: rotate(90deg); */
-  bottom: 0;
-  padding: 1vw;
+  transform: rotate(90deg);
+  pointer-events: none;
 }
 
 .country__title {
   position: fixed;
-  bottom: 0;
+  bottom: 20px;
   text-transform: uppercase;
   z-index: 10;
   color: #fff;
   text-shadow: 4px 2px #00000075;
+  font-size: 3vw;
+  pointer-events: none;
 }

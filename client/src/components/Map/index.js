@@ -11,8 +11,11 @@ export default React.memo(({ handleCountryHover }) => {
   console.log('render');
   return (
     <div style={{ height: '100%', paddingBottom: '10px' }}>
-      <ComposableMap style={{ width: '100%', height: '100%' }}>
-        <ZoomableGroup disablePanning>
+      <ComposableMap
+        style={{ width: '100%', height: '100%' }}
+        projectionConfig={{ scale: 185 }}
+      >
+        <ZoomableGroup disablePanning center={[20, 2]}>
           <Geographies geography={geoData}>
             {(geographies, projection) =>
               geographies.map((geography, i) => (
@@ -20,21 +23,21 @@ export default React.memo(({ handleCountryHover }) => {
                   key={`${geography.properties.ABBREV}-${i}`}
                   style={{
                     default: {
-                      fill: '#ECEFF1',
-                      stroke: '#1a237e',
-                      strokeWidth: 0.75,
+                      fill: '#0d1520',
+                      stroke: '#fff',
+                      strokeWidth: 0.025,
                       outline: 'none',
                     },
                     hover: {
-                      fill: 'red',
-                      stroke: '#1a237e',
-                      strokeWidth: 0.75,
+                      fill: '#355179',
+                      stroke: '#fff',
+                      strokeWidth: 0.025,
                       outline: 'none',
                     },
                     pressed: {
-                      fill: '#ECEFF1',
-                      stroke: '#1a237e',
-                      strokeWidth: 0.75,
+                      fill: '#0d1520',
+                      stroke: '#fff',
+                      strokeWidth: 0.025,
                       outline: 'none',
                     },
                   }}
