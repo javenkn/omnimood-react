@@ -3,8 +3,8 @@ const parseEmoji = require('./parseEmoji');
 const formatData = data => {
   const { coordinates } = data.place.bounding_box;
   return {
-    coordinates: coordinates[0][0],
-    text: parseEmoji(data.text),
+    coordinateData: { coordinates: coordinates[0][0] },
+    emoji: parseEmoji(data.text),
   };
 };
 
