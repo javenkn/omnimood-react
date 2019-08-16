@@ -5,10 +5,12 @@ import {
   ZoomableGroup,
   Geographies,
   Geography,
+  Markers,
+  Marker,
 } from 'react-simple-maps';
 
-export default React.memo(({ handleCountryHover }) => {
-  console.log('render');
+export default React.memo(({ handleCountryHover, tweets }) => {
+  console.log('render', tweets);
   return (
     <div style={{ height: '100%', paddingBottom: '10px' }}>
       <ComposableMap
@@ -24,19 +26,19 @@ export default React.memo(({ handleCountryHover }) => {
                   style={{
                     default: {
                       fill: '#0d1520',
-                      stroke: '#fff',
+                      // stroke: '#fff',
                       strokeWidth: 0.025,
                       outline: 'none',
                     },
                     hover: {
                       fill: '#355179',
-                      stroke: '#fff',
+                      // stroke: '#fff',
                       strokeWidth: 0.025,
                       outline: 'none',
                     },
                     pressed: {
                       fill: '#0d1520',
-                      stroke: '#fff',
+                      // stroke: '#fff',
                       strokeWidth: 0.025,
                       outline: 'none',
                     },
@@ -48,6 +50,13 @@ export default React.memo(({ handleCountryHover }) => {
               ))
             }
           </Geographies>
+          <Markers>
+            {tweets.map((tweet, i) => (
+              <Marker key={i} marker={tweet.coordinateData}>
+                <text className='marker__emoji'>{tweet.emoji}</text>
+              </Marker>
+            ))}
+          </Markers>
         </ZoomableGroup>
       </ComposableMap>
     </div>
