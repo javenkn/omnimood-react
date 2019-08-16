@@ -9,43 +9,51 @@ import {
   Marker,
 } from 'react-simple-maps';
 
-export default React.memo(({ handleCountryHover, tweets }) => {
-  console.log('render', tweets);
-  return (
+export default React.memo(
+  ({
+    handleCountryHover,
+    handleGeographyClick,
+    tweets,
+    zoom,
+    center,
+    countryCode,
+    disableOptimization,
+  }) => (
     <div style={{ height: '100%', paddingBottom: '10px' }}>
       <ComposableMap
         style={{ width: '100%', height: '100%' }}
         projectionConfig={{ scale: 185 }}
       >
-        <ZoomableGroup disablePanning center={[20, 2]}>
-          <Geographies geography={geoData}>
+        <ZoomableGroup disablePanning center={center} zoom={zoom}>
+          <Geographies
+            geography={geoData}
+            disableOptimization={disableOptimization}
+          >
             {(geographies, projection) =>
               geographies.map((geography, i) => (
                 <Geography
                   key={`${geography.properties.ABBREV}-${i}`}
                   style={{
                     default: {
-                      fill: '#0d1520',
-                      // stroke: '#fff',
-                      strokeWidth: 0.025,
+                      fill:
+                        countryCode === geography.properties.ISO_A3
+                          ? '#355179'
+                          : '#0d1520',
                       outline: 'none',
                     },
                     hover: {
                       fill: '#355179',
-                      // stroke: '#fff',
-                      strokeWidth: 0.025,
                       outline: 'none',
                     },
                     pressed: {
                       fill: '#0d1520',
-                      // stroke: '#fff',
-                      strokeWidth: 0.025,
                       outline: 'none',
                     },
                   }}
                   geography={geography}
                   projection={projection}
                   onMouseEnter={handleCountryHover}
+                  onClick={handleGeographyClick}
                 />
               ))
             }
@@ -60,5 +68,5 @@ export default React.memo(({ handleCountryHover, tweets }) => {
         </ZoomableGroup>
       </ComposableMap>
     </div>
-  );
-});
+  ),
+);

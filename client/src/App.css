@@ -39,14 +39,5 @@
 
 .marker__emoji {
   pointer-events: none;
-  animation: emojiShrink 3s forwards;
-}
-
-@keyframes emojiShrink {
-  from {
-    font-size: 20px;
-  }
-  to {
-    font-size: 4px;
-  }
+  font-size: 4px;
 }
