@@ -7,6 +7,7 @@ require('dotenv').config();
 const client = require('./twitter');
 const port = process.env.PORT || 4001;
 const index = require('./routes/index');
+const formatData = require('./helpers/formatData');
 
 const app = express();
 app.use(cors());
@@ -22,7 +23,7 @@ const getApiAndEmit = socket => {
 
   stream.on('data', function(event) {
     if (event.place) {
-      socket.emit('FromAPI', event); // Emitting a new message. It will be consumed by the client
+      socket.emit('FromAPI', formatData(event)); // Emitting a new message. It will be consumed by the client
     }
   });
 
