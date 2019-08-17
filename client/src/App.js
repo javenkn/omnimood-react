@@ -10,7 +10,7 @@ import './App.css';
 function App() {
   const [countryCode, setCountryCode] = useState('');
   const [tweets, setTweets] = useState([]);
-  const [zoom, setZoom] = useState(1);
+  const [zoom, setZoom] = useState(false);
   const [center, setCenter] = useState([20, 2]);
   const [disableOptimization, setDisableOptimization] = useState(false);
 
@@ -40,7 +40,7 @@ function App() {
     // { type: "Feature",  properties: {...}, geometry: {...} }
     const path = geoPath().projection(projection());
     const centroid = projection().invert(path.centroid(geography));
-    setZoom(countryCode === geography.properties.ISO_A2 ? 1 : 2);
+    setZoom(countryCode === geography.properties.ISO_A2 ? !zoom : true);
     setCenter(() =>
       countryCode === geography.properties.ISO_A2 ? [20, 2] : centroid,
     );
@@ -80,7 +80,7 @@ function App() {
         handleCountryHover={handleCountryHover}
         handleGeographyClick={handleGeographyClick}
         tweets={tweets}
-        zoom={zoom}
+        zoom={zoom ? 2 : 1}
         center={center}
         countryCode={countryCode}
         disableOptimization={disableOptimization}
