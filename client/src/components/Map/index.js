@@ -36,7 +36,7 @@ export default React.memo(
                   style={{
                     default: {
                       fill:
-                        countryCode === geography.properties.ISO_A3
+                        countryCode === geography.properties.ISO_A2
                           ? '#355179'
                           : '#0d1520',
                       outline: 'none',
@@ -46,7 +46,7 @@ export default React.memo(
                       outline: 'none',
                     },
                     pressed: {
-                      fill: '#0d1520',
+                      fill: '#355179',
                       outline: 'none',
                     },
                   }}
