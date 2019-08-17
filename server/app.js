@@ -23,7 +23,10 @@ const getApiAndEmit = socket => {
 
   stream.on('data', function(event) {
     if (event.place) {
-      socket.emit('FromAPI', formatData(event)); // Emitting a new message. It will be consumed by the client
+      const formattedData = formatData(event);
+      if (formattedData.emoji) {
+        socket.emit('FromAPI', formattedData); // Emitting a new message. It will be consumed by the client
+      }
     }
   });
 
@@ -31,7 +34,6 @@ const getApiAndEmit = socket => {
     throw error;
   });
 };
-let interval;
 
 io.on('connection', socket => {
   console.log('An user connected');
