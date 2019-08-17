@@ -3,9 +3,9 @@ import socketIOClient from 'socket.io-client';
 import { geoPath } from 'd3-geo';
 import { geoTimes } from 'd3-geo-projection';
 
-import './App.css';
-import countryData from './map-data/country-data.json';
+import countryData from './map-data/country-data-iso-a2.json';
 import Map from './components/Map';
+import './App.css';
 
 function App() {
   const [countryCode, setCountryCode] = useState('');
@@ -21,7 +21,7 @@ function App() {
   }, [disableOptimization]);
 
   const handleCountryHover = geography => {
-    setCountryCode(geography.properties.ISO_A3);
+    setCountryCode(geography.properties.ISO_A2);
   };
 
   const projection = () => {
@@ -30,16 +30,22 @@ function App() {
       .scale(160);
   };
 
+  /**
+   * Click on a country -> zooms in
+   * Click on a diff country (while zoomed) -> switches center (stays zoomed)
+   * Click on same country (while zoomed) -> zooms out
+   */
   const handleGeographyClick = geography => {
     // geography looks something like this:
     // { type: "Feature",  properties: {...}, geometry: {...} }
     const path = geoPath().projection(projection());
     const centroid = projection().invert(path.centroid(geography));
-    // zoom === 2 handles the case when user wants to zoom back out
-    setZoom(zoom => (zoom === 2 ? 1 : 2));
-    setCenter(() => (zoom === 2 ? [20, 2] : centroid));
+    setZoom(countryCode === geography.properties.ISO_A2 ? 1 : 2);
+    setCenter(() =>
+      countryCode === geography.properties.ISO_A2 ? [20, 2] : centroid,
+    );
     setDisableOptimization(true);
-    setCountryCode(geography.properties.ISO_A3);
+    setCountryCode(geography.properties.ISO_A2);
   };
 
   useEffect(() => {
@@ -51,14 +57,25 @@ function App() {
       socket.close();
     };
   }, []);
+
   return (
     <div className='app'>
       <h1 className='app__title'>OMNIMOOD</h1>
-      {countryCode && (
-        <h1 className='country__title'>{`${countryData[countryCode].name} ${
-          countryData[countryCode].flag
-        }`}</h1>
-      )}
+      <div className='country__info'>
+        {tweets.length ? (
+          <h1 className='country__mood'>
+            Tweet Mood from {countryData[tweets.slice(-1)[0].countryCode].name}{' '}
+            {countryData[tweets.slice(-1)[0].countryCode].flag}
+            {': '}
+            {tweets.slice(-1)[0].emoji}
+          </h1>
+        ) : null}
+        {countryCode && (
+          <h1 className='country__title'>{`${countryData[countryCode].name} ${
+            countryData[countryCode].flag
+          }`}</h1>
+        )}
+      </div>
       <Map
         handleCountryHover={handleCountryHover}
         handleGeographyClick={handleGeographyClick}
