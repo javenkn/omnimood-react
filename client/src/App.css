@@ -17,10 +17,11 @@ a {
   width: 100vw;
   height: 100vh;
   background: #1a2643;
-  padding: 10px 20px;
+  padding: 10px 20px 10px 0;
   display: grid;
   grid-template-rows: min-content 5fr min-content;
   grid-template-columns: min-content 5fr min-content;
+  position: fixed;
 }
 
 .app__title {

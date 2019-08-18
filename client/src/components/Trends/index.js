@@ -28,13 +28,15 @@ export default function() {
 
   return (
     <div className='trends'>
-      <h2>{`Trends Worldwide ${trendTime ? 'as of' : ''} ${trendTime ||
-        ''}`}</h2>
-      <FontAwesomeIcon
-        className='refresh'
-        icon={faSync}
-        onClick={fetchTrends}
-      />
+      <div className='trends__text'>
+        <h3>{`Worldwide Trends ${trendTime ? 'as of' : ''} ${trendTime ||
+          ''}`}</h3>
+        <FontAwesomeIcon
+          className='refresh'
+          icon={faSync}
+          onClick={fetchTrends}
+        />
+      </div>
       {isFetching ? (
         <p>Loading...</p>
       ) : (

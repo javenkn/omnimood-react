@@ -8,12 +8,25 @@
   align-items: center;
   white-space: nowrap;
   padding-bottom: 5px;
+  overflow: hidden;
+}
+
+.trends__text {
+  display: flex;
+  align-items: center;
+  background: #192543;
+  z-index: 10;
+  width: fit-content;
+  padding-left: 20px;
 }
 
 .trends__list {
   display: flex;
   align-items: center;
-  overflow-x: scroll;
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  animation: trendmove 120s linear infinite;
 }
 
 .trends__list::-webkit-scrollbar {
@@ -26,6 +39,10 @@
   margin-left: 10px;
 }
 
+/* .trends__list > li:first-child {
+  animation: trendmove 60s linear infinite;
+} */
+
 .trends__list > li:hover > a {
   color: #1da1f2;
 }
@@ -37,4 +54,13 @@
 .refresh:hover {
   color: #1da1f2;
   cursor: pointer;
+}
+
+@keyframes trendmove {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-20%);
+  }
 }
