@@ -9,26 +9,33 @@
   height: 100vh;
   background: #1a2643;
   padding: 10px 20px;
+  display: grid;
+  grid-template-rows: min-content 5fr min-content;
+  grid-template-columns: min-content 5fr min-content;
 }
 
 .app__title {
-  height: 0;
-  width: 0;
-  position: fixed;
+  grid-column: end;
+  grid-row: 1 / end;
+  height: 100px;
+  width: 50px;
   color: transparent;
   text-transform: uppercase;
   -webkit-text-stroke: 1px #fff;
-  top: 7vh;
   font-size: 7vw;
-  right: 0;
   z-index: 10;
   transform: rotate(90deg);
   pointer-events: none;
 }
 
+.map {
+  grid-column: 1 / end;
+  grid-row: 1 / 7;
+}
+
 .country__info {
-  position: fixed;
-  bottom: 2vh;
+  grid-column: 1 / end;
+  grid-row: 3;
   z-index: 10;
   pointer-events: none;
 }
@@ -40,14 +47,23 @@
 }
 
 .country__mood {
-  font-size: 1.5vw;
+  font-size: 1vw;
 }
 
 .country__title {
-  font-size: 3vw;
+  font-size: 2vw;
 }
 
 .marker__emoji {
   pointer-events: none;
-  font-size: 4px;
+  font-size: 8px;
+}
+
+.trends {
+  color: #fff;
+  grid-column: 1 / end;
+  grid-row: 1;
+  z-index: 2;
+  font-size: 0.5vw;
+  pointer-events: none;
 }

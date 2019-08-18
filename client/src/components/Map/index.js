@@ -19,10 +19,10 @@ export default React.memo(
     countryCode,
     disableOptimization,
   }) => (
-    <div style={{ height: '100%', paddingBottom: '10px' }}>
+    <div className='map'>
       <ComposableMap
         style={{ width: '100%', height: '100%' }}
-        projectionConfig={{ scale: 185 }}
+        projectionConfig={{ scale: 175 }}
       >
         <ZoomableGroup disablePanning center={center} zoom={zoom}>
           <Geographies

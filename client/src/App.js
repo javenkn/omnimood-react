@@ -1,17 +1,18 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import socketIOClient from 'socket.io-client';
 import { geoPath } from 'd3-geo';
 import { geoTimes } from 'd3-geo-projection';
 
-import countryData from './map-data/country-data-iso-a2.json';
 import Map from './components/Map';
 import './App.css';
+import CountryInfo from './components/CountryInfo';
+import Trends from './components/Trends';
 
 function App() {
   const [countryCode, setCountryCode] = useState('');
   const [tweets, setTweets] = useState([]);
   const [zoom, setZoom] = useState(false);
-  const [center, setCenter] = useState([20, 2]);
+  const [center, setCenter] = useState([10, 0]);
   const [disableOptimization, setDisableOptimization] = useState(false);
 
   useEffect(() => {
@@ -42,7 +43,7 @@ function App() {
     const centroid = projection().invert(path.centroid(geography));
     setZoom(countryCode === geography.properties.ISO_A2 ? !zoom : true);
     setCenter(() =>
-      countryCode === geography.properties.ISO_A2 ? [20, 2] : centroid,
+      countryCode === geography.properties.ISO_A2 ? [10, 0] : centroid,
     );
     setDisableOptimization(true);
     setCountryCode(geography.properties.ISO_A2);
@@ -60,8 +61,23 @@ function App() {
 
   return (
     <div className='app'>
+      <Trends />
+      <Map
+        handleCountryHover={handleCountryHover}
+        handleGeographyClick={handleGeographyClick}
+        tweets={tweets}
+        zoom={zoom ? 2 : 1}
+        center={center}
+        countryCode={countryCode}
+        disableOptimization={disableOptimization}
+      />
       <h1 className='app__title'>OMNIMOOD</h1>
-      <div className='country__info'>
+      <CountryInfo
+        newestTweet={tweets.slice(-1)[0]}
+        countryCode={countryCode}
+        tweets={tweets}
+      />
+      {/* <div className='country__info'>
         {tweets.length ? (
           <h1 className='country__mood'>
             Tweet Mood from {countryData[tweets.slice(-1)[0].countryCode].name}{' '}
@@ -75,16 +91,7 @@ function App() {
             countryData[countryCode].flag
           }`}</h1>
         )}
-      </div>
-      <Map
-        handleCountryHover={handleCountryHover}
-        handleGeographyClick={handleGeographyClick}
-        tweets={tweets}
-        zoom={zoom ? 2 : 1}
-        center={center}
-        countryCode={countryCode}
-        disableOptimization={disableOptimization}
-      />
+      </div> */}
     </div>
   );
 }
