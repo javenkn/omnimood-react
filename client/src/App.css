@@ -4,6 +4,15 @@
   padding: 0;
 }
 
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: #fff;
+}
+
 .app {
   width: 100vw;
   height: 100vh;
@@ -16,8 +25,8 @@
 
 .app__title {
   grid-column: end;
-  grid-row: 1 / end;
-  height: 100px;
+  grid-row: 2 / end;
+  height: 50px;
   width: 50px;
   color: transparent;
   text-transform: uppercase;
@@ -26,11 +35,12 @@
   z-index: 10;
   transform: rotate(90deg);
   pointer-events: none;
+  margin-top: 1vw;
 }
 
 .map {
   grid-column: 1 / end;
-  grid-row: 1 / 7;
+  grid-row: 2 / 7;
 }
 
 .country__info {
@@ -64,6 +74,38 @@
   grid-column: 1 / end;
   grid-row: 1;
   z-index: 2;
-  font-size: 0.5vw;
-  pointer-events: none;
+  font-size: 1vw;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  padding-bottom: 5px;
+}
+
+.trends__list {
+  display: flex;
+  align-items: center;
+  overflow-x: scroll;
+}
+
+.trends__list::-webkit-scrollbar {
+  width: 0px; /* Remove scrollbar space */
+  height: 0px; /* Remove scrollbar space */
+  background: transparent; /* Optional: just make scrollbar invisible */
+}
+
+.trends__list > li {
+  margin-left: 10px;
+}
+
+.trends__list > li:hover > a {
+  color: #1da1f2;
+}
+
+.refresh {
+  margin-left: 10px;
+}
+
+.refresh:hover {
+  color: #1da1f2;
+  cursor: pointer;
 }

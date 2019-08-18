@@ -1,9 +1,46 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSync } from '@fortawesome/free-solid-svg-icons';
 
 export default function() {
+  const [trends, setTrends] = useState([]);
+  const [trendTime, setTrendTime] = useState(null);
+  const [isFetching, setIsFetching] = useState(false);
+
+  useEffect(() => {
+    fetchTrends();
+  }, []);
+
+  const fetchTrends = async () => {
+    try {
+      setIsFetching(true);
+      const res = await fetch('http://localhost:4001/twitter-trends');
+      const trendsInfo = await res.json();
+      setIsFetching(false);
+      setTrendTime(new Date(trendsInfo.as_of).toLocaleString());
+      setTrends(trendsInfo.trends);
+    } catch (error) {
+      console.error(error);
+      setIsFetching(false);
+    }
+  };
+
   return (
     <div className='trends'>
-      <h1>Trends Worldwide as of 8/17/2019</h1>
+      <h2>{`Trends Worldwide ${trendTime ? 'as of' : ''} ${trendTime ||
+        ''}`}</h2>
+      <FontAwesomeIcon
+        className='refresh'
+        icon={faSync}
+        onClick={fetchTrends}
+      />
+      <ul className='trends__list'>
+        {trends.map((trend, i) => (
+          <li key={`trend-${i}`}>
+            <a href={trend.url}>{trend.name}</a>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
