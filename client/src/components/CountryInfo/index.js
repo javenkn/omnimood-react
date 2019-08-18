@@ -1,5 +1,6 @@
 import React from 'react';
 import countryData from '../../map-data/country-data-iso-a2.json';
+import './country-info.css';
 
 export default function({ newestTweet, tweets, countryCode }) {
   return (

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSync } from '@fortawesome/free-solid-svg-icons';
+import './trends.css';
 
 export default function() {
   const [trends, setTrends] = useState([]);
@@ -34,13 +35,17 @@ export default function() {
         icon={faSync}
         onClick={fetchTrends}
       />
-      <ul className='trends__list'>
-        {trends.map((trend, i) => (
-          <li key={`trend-${i}`}>
-            <a href={trend.url}>{trend.name}</a>
-          </li>
-        ))}
-      </ul>
+      {isFetching ? (
+        <p>Loading...</p>
+      ) : (
+        <ul className='trends__list'>
+          {trends.map((trend, i) => (
+            <li key={`trend-${i}`}>
+              <a href={trend.url}>{trend.name}</a>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

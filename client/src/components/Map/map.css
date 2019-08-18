@@ -1,0 +1,9 @@
+.map {
+  grid-column: 1 / end;
+  grid-row: 2 / 7;
+}
+
+.marker__emoji {
+  pointer-events: none;
+  font-size: 8px;
+}

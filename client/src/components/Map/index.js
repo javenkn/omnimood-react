@@ -8,6 +8,7 @@ import {
   Markers,
   Marker,
 } from 'react-simple-maps';
+import './map.css';
 
 export default React.memo(
   ({
