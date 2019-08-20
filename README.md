@@ -2,7 +2,7 @@
 
 Updated version of Omnimood with React with hooks and Node.js
 
-![](https://github.com/javenkn/omnimood-react/raw/master/files/omnimood-demo.gif)
+![](https://github.com/javenkn/omnimood-react/raw/master/files/omnimood-demo.mp4)
 
 ## Try It Out On Local
 
